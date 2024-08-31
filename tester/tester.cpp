@@ -39,12 +39,27 @@ bool compareFiles(const std::string& path1, const std::string& path2) {
     std::ifstream file1(path1);
     std::ifstream file2(path2);
     std::string line1, line2;
+    int lineNum = 1;
     while (std::getline(file1, line1)) {
         if (!std::getline(file2, line2) || line1 != line2) {
+            std::cout << "Mismatched line(" << lineNum++ << "):" << std::endl;
+            std::cout << "file1: " << std::endl << line1 << std::endl;
+            if (line2.empty()) {
+                std::cout << "file2 has ended" << std::endl;
+            } else {
+                std::cout << "file2: " << std::endl << line2 << std::endl;
+            }
             return false;
         }
     }
-    return !std::getline(file2, line2);
+    if (!std::getline(file2, line2)) {
+        return true;
+    } else {
+        std::cout << "Mismatched line(" << lineNum << "):" << std::endl;
+        std::cout << "file1 has ended" << std::endl;
+        std::cout << "file2: " << std::endl << line2 << std::endl;
+        return false;
+    }
 }
 
 TestCaseResult runTestCase(const std::string& execPath, const std::string& inputPath, const std::string& outputPath) {
