@@ -18,6 +18,9 @@ Node* splitLinkList(Node *head, int x) {
         }
         p = t;
     }
+    if (tail == nullptr) {
+        return large.next;
+    }
     tail->next = large.next;
     return small.next;
 }
